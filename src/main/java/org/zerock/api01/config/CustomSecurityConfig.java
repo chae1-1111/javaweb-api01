@@ -18,6 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.zerock.api01.security.APIUserDetailsService;
 import org.zerock.api01.security.filter.APILoginFilter;
+import org.zerock.api01.security.handler.APILoginSuccessHandler;
 
 @Configuration
 @Log4j2
@@ -55,6 +56,9 @@ public class CustomSecurityConfig {
 
         APILoginFilter apiLoginFilter = new APILoginFilter("/generateToken");
         apiLoginFilter.setAuthenticationManager(authenticationManager);
+
+        APILoginSuccessHandler successHandler = new APILoginSuccessHandler();
+        apiLoginFilter.setAuthenticationSuccessHandler(successHandler);
 
         http.addFilterBefore(apiLoginFilter, UsernamePasswordAuthenticationFilter.class);
 
